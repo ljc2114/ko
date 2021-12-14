@@ -8,7 +8,7 @@ jobs:
     - name: Install modules
       run: yarn
     - name: Run ESLint
-      run: yarn eslint
+      run: eslint . --ext .js,.jsx,.ts,.tsx
 # on: push
 # jobs:
 #   # install dependencies
