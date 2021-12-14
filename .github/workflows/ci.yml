@@ -15,19 +15,20 @@ on: push
 jobs:
   prettier:
     runs-on: ubuntu-latest
-
     steps:
-    - name: Checkout
-      uses: actions/checkout@v2
-      with:
-        # Make sure the actual branch is checked out when running on pull requests
-        ref: ${{ github.head_ref }}
-
-    - name: Prettify code
-      uses: creyD/prettier_action@v4.1
-      with:
-        # This part is also where you can pass other options, for example:
-        prettier_options: --write **/*.{js,md}
+      - uses: actions/checkout@v2
+      - name: Use Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: '12.x'
+      - uses: actions/cache@v2
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+      - name: eslint
+        run: node -v && yarn eslint
+      - name: prettier
+        run: yarn prettier
 # name: CI
 
 # on:
