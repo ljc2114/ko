@@ -24,32 +24,32 @@ export async function formatFilesWithEslint(
   });
   const formatter = await eslint.loadFormatter();
   const eslintFilesPromises = targetFiles.map(async (file) => {
-    try {
-      const result = await eslint.lintFiles(file);
-      if (result[0].errorCount) {
-        const resultText = formatter.format(result);
-        console.log(resultText);
-        return false;
-      }
-      return true;
-    } catch (ex) {
-      throw ex;
+    // try {
+    const result = await eslint.lintFiles(file);
+    if (result[0].errorCount) {
+      const resultText = formatter.format(result);
+      console.log(resultText);
+      return false;
     }
+    return true;
+    // } catch (ex) {
+    // throw ex;
+    // }
   });
-  try {
-    let stdout = "";
-    const result = await Promise.all(eslintFilesPromises);
-    if (!fix) {
-      if (result.includes(false)) {
-        stdout = "Not all matched files are linted";
-      } else {
-        stdout = "All matched files are linted";
-      }
+  // try {
+  let stdout = "";
+  const result = await Promise.all(eslintFilesPromises);
+  if (!fix) {
+    if (result.includes(false)) {
+      stdout = "Not all matched files are linted";
     } else {
-      stdout = "All matched files has been fixed successfully!";
+      stdout = "All matched files are linted";
     }
-    console.log(stdout);
-  } catch (ex) {
-    console.log("eslint failed: ", ex);
+  } else {
+    stdout = "All matched files has been fixed successfully!";
   }
+  console.log(stdout);
+  // } catch (ex) {
+  // console.log("eslint failed: ", ex);
+  // }
 }

@@ -10,7 +10,7 @@ jobs:
     - name: prettier
       run: yarn prettier
     - name: eslint
-      run: eslint . --ext .js,.jsx,.ts,.tsx
+      run: yarn eslint
     - name: stylelint
       run: yarn stylelint
 # on: push
