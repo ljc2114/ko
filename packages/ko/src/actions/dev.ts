@@ -1,12 +1,12 @@
-import webpack from 'webpack';
-import WebpackDevServer from 'webpack-dev-server';
-import detect from 'detect-port';
-import { prompt } from 'inquirer';
-import config from '../utils/config';
-import { Options } from '../interfaces';
-import { WebpackCreator } from './creator';
+import webpack from "webpack";
+import WebpackDevServer from "webpack-dev-server";
+import detect from "detect-port";
+import { prompt } from "inquirer";
+import config from "../utils/config";
+import { Options } from "../interfaces";
+import { WebpackCreator } from "./creator";
 
-const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
 
 class Dev extends WebpackCreator {
   constructor(opts: Options) {
@@ -23,34 +23,34 @@ class Dev extends WebpackCreator {
       historyApiFallback: true,
       disableHostCheck: true,
       compress: true,
-      clientLogLevel: 'none',
+      clientLogLevel: "none",
       hot: true,
       inline: true,
-      publicPath: '/',
+      publicPath: "/",
       watchOptions: {
         ignored: /node_modules/,
         aggregateTimeout: 600,
       },
-      open: true
+      open: true,
     };
     return { ...defaultDevServerConfig, ...userDefinedDevServerConfig };
   }
 
   public config() {
     const conf = {
-      devtool: 'cheap-module-source-map',
+      devtool: "cheap-module-source-map",
       plugins: [
         new webpack.HotModuleReplacementPlugin(),
-        this.opts.analyzer && new BundleAnalyzerPlugin()
+        this.opts.analyzer && new BundleAnalyzerPlugin(),
       ].filter(Boolean),
-    }
+    };
     return this.mergeConfig([this.baseConfig, conf]);
   }
 
   private async changePort(newPort: number, port: number) {
     const question = {
-      type: 'confirm',
-      name: 'changePort',
+      type: "confirm",
+      name: "changePort",
       message: `port: ${port} has been used，use new port ${newPort} instead?`,
       default: true,
     };
@@ -82,28 +82,32 @@ class Dev extends WebpackCreator {
     const { port, host } = this.devSerConf();
     const newPort = await this.checkPort(parseInt(port));
     if (!newPort) return;
-    WebpackDevServer.addDevServerEntrypoints(
-      this.config(), this.devSerConf()
-    )
+    WebpackDevServer.addDevServerEntrypoints(this.config(), this.devSerConf());
     const compiler = webpack(this.config());
     const devServer = new WebpackDevServer(compiler, this.devSerConf());
     let isFirstCompile = true;
 
-    compiler.hooks.done.tap('done', (stats) => {
+    compiler.hooks.done.tap("done", (stats) => {
       if (isFirstCompile) {
         isFirstCompile = false;
-        this.successStdout('development server has been started');
-        console.log(`server starts at: ${this.linkStdout(this.getUrlHost(host) + ':' + port)}`);
+        this.successStdout("development server has been started");
+        console.log(
+          `server starts at: ${this.linkStdout(
+            this.getUrlHost(host) + ":" + port
+          )}`
+        );
       }
       if (stats.hasErrors()) {
-        console.log(stats.toString({
-          colors: true
-        }))
+        console.log(
+          stats.toString({
+            colors: true,
+          })
+        );
       }
     });
 
-    compiler.hooks.invalid.tap('invalid', () => {
-      console.log('Compiling...');
+    compiler.hooks.invalid.tap("invalid", () => {
+      console.log("Compiling...");
     });
 
     devServer.listen(port, host, (err) => {

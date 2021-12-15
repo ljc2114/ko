@@ -1,9 +1,9 @@
-import webpack from 'webpack';
-import { ESBuildMinifyPlugin } from 'esbuild-loader';
-import { Options } from '../interfaces';
-import { WebpackCreator } from './creator';
+import webpack from "webpack";
+import { ESBuildMinifyPlugin } from "esbuild-loader";
+import { Options } from "../interfaces";
+import { WebpackCreator } from "./creator";
 
-const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 
 class Build extends WebpackCreator {
   constructor(opts: Options) {
@@ -16,31 +16,32 @@ class Build extends WebpackCreator {
       optimization: {
         minimizer: [
           !esbuild && new CssMinimizerPlugin(),
-          esbuild && new ESBuildMinifyPlugin({
-            target: 'es2015',
-            css: true
-          })
-        ].filter(Boolean)
+          esbuild &&
+            new ESBuildMinifyPlugin({
+              target: "es2015",
+              css: true,
+            }),
+        ].filter(Boolean),
       },
       plugins: [
         new webpack.optimize.SplitChunksPlugin({
-          chunks: 'async',
+          chunks: "async",
           minSize: 30000,
           maxSize: 600000,
           minChunks: 1,
           maxAsyncRequests: 5,
           maxInitialRequests: 3,
-          automaticNameDelimiter: '_',
+          automaticNameDelimiter: "_",
           cacheGroups: {
             antd: {
-              name: 'antd',
+              name: "antd",
               test: /[\\/]node_modules[\\/]antd[\\/]/,
-              chunks: 'initial',
+              chunks: "initial",
             },
             lodash: {
-              name: 'lodash',
+              name: "lodash",
               test: /[\\/]node_modules[\\/]lodash[\\/]/,
-              chunks: 'initial',
+              chunks: "initial",
               priority: -10,
             },
             default: {
@@ -49,9 +50,9 @@ class Build extends WebpackCreator {
               reuseExistingChunk: true,
             },
           },
-        })
-      ]
-    }
+        }),
+      ],
+    };
     return this.mergeConfig([this.baseConfig, conf]);
   }
 
@@ -60,15 +61,15 @@ class Build extends WebpackCreator {
     webpack(this.config(), (error, stats: any) => {
       if (stats && stats.hasErrors()) {
         throw stats.toString({
-          logging: 'warn',
-          colors: true
+          logging: "warn",
+          colors: true,
         });
       }
       if (error) {
         throw error;
       }
-      this.successStdout('ko build completed!');
-    })
+      this.successStdout("ko build completed!");
+    });
   }
 }
 

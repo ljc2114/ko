@@ -1,7 +1,7 @@
-import { existsSync, readFileSync } from 'fs';
-import { join, isAbsolute } from 'path';
-import { sync, Pattern } from 'fast-glob';
-import { defaultIgnoreFile } from './constants';
+import { existsSync, readFileSync } from "fs";
+import { join, isAbsolute } from "path";
+import { sync, Pattern } from "fast-glob";
+import { defaultIgnoreFile } from "./constants";
 
 export function findRealPath(configPath: string): string {
   if (!isAbsolute(configPath)) {
@@ -11,7 +11,7 @@ export function findRealPath(configPath: string): string {
     return configPath;
   }
   throw new Error(
-    'config file is not exist, please checkout config file path!'
+    "config file is not exist, please checkout config file path!"
   );
 }
 
@@ -31,7 +31,7 @@ export function getTargetFiles(
 }
 
 function getIgnorePatterns(ignoreFile: string): string[] {
-  const gitIgnorePath = join(process.cwd(), '.gitignore');
+  const gitIgnorePath = join(process.cwd(), ".gitignore");
   const gitIgnorePatterns = getFilePatterns(gitIgnorePath);
   const ignorePatterns = getFilePatterns(ignoreFile);
   return ignorePatterns.reduce((accumlator, currentValue) => {
@@ -45,7 +45,7 @@ function getIgnorePatterns(ignoreFile: string): string[] {
 function getFilePatterns(filePath: string): string[] {
   let patterns: string[] = [];
   if (existsSync(filePath)) {
-    patterns = readFileSync(filePath, 'utf-8').split('\n').filter(Boolean);
+    patterns = readFileSync(filePath, "utf-8").split("\n").filter(Boolean);
   }
   return patterns;
 }

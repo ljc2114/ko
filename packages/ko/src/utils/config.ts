@@ -1,5 +1,5 @@
-import { resolve, isAbsolute } from 'path';
-import { existsSync } from 'fs';
+import { resolve, isAbsolute } from "path";
+import { existsSync } from "fs";
 
 class Config {
   cwd: string;
@@ -23,26 +23,26 @@ class Config {
 
   //TODO: define userConf
   public get userConf() {
-    const userConfPath = this.getFileRealPath('ko.config.js');
+    const userConfPath = this.getFileRealPath("ko.config.js");
     if (existsSync(userConfPath)) {
       return userConfPath ? require(userConfPath as string) : {};
     } else {
-      throw new Error('user config file not exist, please check it!');
+      throw new Error("user config file not exist, please check it!");
     }
   }
 
   public get defaultPaths() {
     return {
-      src: this.getFileRealPath('src'),
-      dist: this.getFileRealPath('dist'),
-      public: this.getFileRealPath('public'),
-      html: this.getFileRealPath('public/index.html'),
-      tsconfig: this.getFileRealPath('tsconfig.json')
-    }
+      src: this.getFileRealPath("src"),
+      dist: this.getFileRealPath("dist"),
+      public: this.getFileRealPath("public"),
+      html: this.getFileRealPath("public/index.html"),
+      tsconfig: this.getFileRealPath("tsconfig.json"),
+    };
   }
 
   public get isProductionEnv(): boolean {
-    const PROD = 'production';
+    const PROD = "production";
     return process.env.NODE_ENV === PROD;
   }
 }

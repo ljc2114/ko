@@ -1,14 +1,14 @@
-const path = require('path');
+const path = require("path");
 
 module.exports = function (api, opts = {}) {
   let absoluteRuntimePath = false;
   if (opts.useAbsoluteRuntime) {
     absoluteRuntimePath = path.dirname(
-      require.resolve('@babel/runtime/package.json')
+      require.resolve("@babel/runtime/package.json")
     );
   }
   const env = process.env.BABEL_ENV || process.env.NODE_ENV;
-  const isProd = env === 'production';
+  const isProd = env === "production";
   return {
     assumptions: {
       //use assignment rather than using Object.defineProperty
@@ -16,16 +16,16 @@ module.exports = function (api, opts = {}) {
     },
     presets: [
       [
-        require('@babel/preset-env').default,
+        require("@babel/preset-env").default,
         {
-          useBuiltIns: 'entry',
+          useBuiltIns: "entry",
           corejs: 3,
           // Exclude transforms that make all code slower
-          exclude: ['transform-typeof-symbol'],
+          exclude: ["transform-typeof-symbol"],
         },
       ],
       [
-        require('@babel/preset-react').default,
+        require("@babel/preset-react").default,
         {
           development: !isProd,
         },
@@ -34,15 +34,12 @@ module.exports = function (api, opts = {}) {
     plugins: [
       //support proposal decorators
       //NOTE: https://babeljs.io/docs/en/babel-plugin-proposal-decorators#note-compatibility-with-babelplugin-proposal-class-properties
+      [require("@babel/plugin-proposal-decorators").default, { legacy: true }],
       [
-        require('@babel/plugin-proposal-decorators').default,
-        { legacy: true },
-      ],
-      [
-        require('@babel/plugin-transform-runtime').default,
+        require("@babel/plugin-transform-runtime").default,
         {
           corejs: false,
-          version: require('@babel/runtime/package.json').version,
+          version: require("@babel/runtime/package.json").version,
           regenerator: true,
           absoluteRuntime: absoluteRuntimePath,
         },
