@@ -10,9 +10,9 @@ jobs:
     - name: prettier
       run: yarn prettier
     - name: eslint
-      run: yarn eslint
+      run: yarn eslint . --ext .js,.jsx,.ts,.tsx
     - name: stylelint
-      run: yarn stylelint
+      run: yarn stylelint .less,.scss,.css,.sass
 # on: push
 # jobs:
 #   # install dependencies
