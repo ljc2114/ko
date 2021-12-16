@@ -1,7 +1,7 @@
-import { findRealPath } from "./utils";
-import { ESLint } from "eslint";
-import { Extensions } from "./constants";
-import { EslintOptions } from "./interfaces";
+import { findRealPath } from './utils';
+import { ESLint } from 'eslint';
+import { Extensions } from './constants';
+import { EslintOptions } from './interfaces';
 
 export async function formatFilesWithEslint(
   opts: EslintOptions & { targetFiles: string[] }
@@ -9,7 +9,7 @@ export async function formatFilesWithEslint(
   const { targetFiles, configPath, fix } = opts;
   const config = configPath
     ? require(findRealPath(configPath))
-    : require("ko-config/eslint");
+    : require('ko-config/eslint');
   const extensions = [
     Extensions.JS,
     Extensions.JSX,
@@ -32,16 +32,16 @@ export async function formatFilesWithEslint(
     }
     return true;
   });
-  let stdout = "";
+  let stdout = '';
   const result = await Promise.all(eslintFilesPromises);
   if (!fix) {
     if (result.includes(false)) {
-      stdout = "Not all matched files are linted";
+      stdout = 'Not all matched files are linted';
     } else {
-      stdout = "All matched files are linted";
+      stdout = 'All matched files are linted';
     }
   } else {
-    stdout = "All matched files has been fixed successfully!";
+    stdout = 'All matched files has been fixed successfully!';
   }
   console.log(stdout);
 }

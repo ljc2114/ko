@@ -1,10 +1,10 @@
-import { loader as MiniCssExtractPluginLoader } from "mini-css-extract-plugin";
-import autoprefixer from "autoprefixer";
+import { loader as MiniCssExtractPluginLoader } from 'mini-css-extract-plugin';
+import autoprefixer from 'autoprefixer';
 
-const CSS_LOADER = require.resolve("css-loader");
-const LESS_LOADER = require.resolve("less-loader");
-const SASS_LOADER = require.resolve("sass-loader");
-const POSTCSS_LOADER = require.resolve("postcss-loader");
+const CSS_LOADER = require.resolve('css-loader');
+const LESS_LOADER = require.resolve('less-loader');
+const SASS_LOADER = require.resolve('sass-loader');
+const POSTCSS_LOADER = require.resolve('postcss-loader');
 
 const styleLoader = {
   loader: MiniCssExtractPluginLoader,

@@ -1,13 +1,13 @@
 #!/usr/bin/env node
-"use strict";
+'use strict';
 
-import { Command } from "commander";
-import initKoLintCli from "./index";
+import { Command } from 'commander';
+import initKoLintCli from './index';
 
-const pkg = require("../package.json");
+const pkg = require('../package.json');
 const program = new Command();
 
-program.description("ko lint tools").version(pkg.version, "-v --version");
+program.description('ko lint tools').version(pkg.version, '-v --version');
 
 initKoLintCli(program);
 
