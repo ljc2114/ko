@@ -24,7 +24,6 @@ export async function formatFilesWithEslint(
   });
   const formatter = await eslint.loadFormatter();
   const eslintFilesPromises = targetFiles.map(async (file) => {
-    // try {
     const result = await eslint.lintFiles(file);
     if (result[0].errorCount) {
       const resultText = formatter.format(result);
@@ -32,11 +31,7 @@ export async function formatFilesWithEslint(
       return false;
     }
     return true;
-    // } catch (ex) {
-    // throw ex;
-    // }
   });
-  // try {
   let stdout = "";
   const result = await Promise.all(eslintFilesPromises);
   if (!fix) {
@@ -49,7 +44,4 @@ export async function formatFilesWithEslint(
     stdout = "All matched files has been fixed successfully!";
   }
   console.log(stdout);
-  // } catch (ex) {
-  // console.log("eslint failed: ", ex);
-  // }
 }

@@ -12,7 +12,6 @@ export async function formatFilesWithPrettier(
     : require("ko-config/prettier");
   console.log("prettier process starting...");
   const formatFilesPromises = files.map(async (file) => {
-    // try {
     const source = await promises.readFile(file, "utf-8");
     const opts = { ...prettierConfig, filepath: file };
     if (isCheck) {
@@ -21,9 +20,6 @@ export async function formatFilesWithPrettier(
       const formatContent = format(source, opts);
       return promises.writeFile(file, formatContent, "utf-8");
     }
-    // } catch (ex) {
-    //   throw ex;
-    // }
   });
   try {
     let stdout = "";

@@ -11,8 +11,6 @@ jobs:
       run: yarn prettier
     - name: eslint
       run: yarn eslint
-    - name: stylelint
-      run: yarn stylelint
 # on: push
 # jobs:
 #   # install dependencies
